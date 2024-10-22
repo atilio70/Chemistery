@@ -5,54 +5,128 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
-//Struct basico
-type album struct {
-	ID string `json:"id"`
-	Title string `json:"titulo"`
-	Artist string `json:"artist"`
-	Year  int `json:"year"`
+type tablaPeriodica struct{
+	NumAt int `json:"numat"`
+	Elemento string `json:"elemento"`
 }
 
-//Pequeña base de datos
-var albums =[]album{
-	{ID:"1", Title:"Familia", Artist:"Camila CAbello", Year: 2022},
-	{ID:"2", Title:"21", Artist:"Adele", Year: 2011},
-	{ID:"3", Title:"The Eminem show", Artist:"Eminem", Year: 2022},
-}
-// Se utiliza para que el cliente de respuesta
-func getAlbums(c *gin.Context){
-	c.IndentedJSON(http.StatusOK, albums)
-}
-
-func postAlbums(c *gin.Context){
-	var newAlbum album 
-
-	if err := c.BindJSON(&newAlbum); err!=nil {
-		return
-	}
-
-	albums = append(albums, newAlbum)
-
-	c.IndentedJSON(http.StatusCreated, albums)
-}
-
-func getAlbumByID(c *gin.Context){
-	id := c.Param("id")
-
-	for _, a:= range albums {
-		if a.ID == id{
-			c.IndentedJSON(http.StatusOK, a)
-			return
-		}
-	}
-	c.IndentedJSON(http.StatusNotFound, gin.H{"message":"Album no encontrado"})
-}
-
-func main() {
-	router := gin.Default()
-	router.GET("/albums", getAlbums)
-	router.POST("/albums",postAlbums)
-	router.GET("/albums/:id", getAlbumByID)
-
-	router.Run("localhost:8080")
+var elementos =  []elemento {
+	{NumAt: 1, Elemento: "Hidrógeno"},
+	{NumAt: 2, Elemento: "Helio"},
+	{NumAt: 3, Elemento: "Litio"},
+	{NumAt: 4, Elemento: "Berilio"},
+	{NumAt: 5, Elemento: "Boro"},
+	{NumAt: 6, Elemento: "Carbono"},
+	{NumAt: 7, Elemento: "Nitrógeno"},
+	{NumAt: 8, Elemento: "Oxígeno"},
+	{NumAt: 9, Elemento: "Flúor"},
+	{NumAt: 10, Elemento: "Neón"},
+	{NumAt: 11, Elemento: "Sodio"},
+	{NumAt: 12, Elemento: "Magnesio"},
+	{NumAt: 13, Elemento: "Aluminio"},
+	{NumAt: 14, Elemento: "Silicio"},
+	{NumAt: 15, Elemento: "Fósforo"},
+	{NumAt: 16, Elemento: "Azufre"},
+	{NumAt: 17, Elemento: "Cloro"},
+	{NumAt: 18, Elemento: "Argón"},
+	{NumAt: 19, Elemento: "Potasio"},
+	{NumAt: 20, Elemento: "Calcio"},
+	{NumAt: 21, Elemento: "Escandio"},
+	{NumAt: 22, Elemento: "Titanio"},
+	{NumAt: 23, Elemento: "Vanadio"},
+	{NumAt: 24, Elemento: "Cromo"},
+	{NumAt: 25, Elemento: "Manganeso"},
+	{NumAt: 26, Elemento: "Hierro"},
+	{NumAt: 27, Elemento: "Cobalto"},
+	{NumAt: 28, Elemento: "Níquel"},
+	{NumAt: 29, Elemento: "Cobre"},
+	{NumAt: 30, Elemento: "Zinc"},
+	{NumAt: 31, Elemento: "Galio"},
+	{NumAt: 32, Elemento: "Germanio"},
+	{NumAt: 33, Elemento: "Arsénico"},
+	{NumAt: 34, Elemento: "Selenio"},
+	{NumAt: 35, Elemento: "Bromo"},
+	{NumAt: 36, Elemento: "Kriptón"},
+	{NumAt: 37, Elemento: "Rubidio"},
+	{NumAt: 38, Elemento: "Estroncio"},
+	{NumAt: 39, Elemento: "Itrio"},
+	{NumAt: 40, Elemento: "Circonio"},
+	{NumAt: 41, Elemento: "Niobio"},
+	{NumAt: 42, Elemento: "Molibdeno"},
+	{NumAt: 43, Elemento: "Tecnecio"},
+	{NumAt: 44, Elemento: "Rutenio"},
+	{NumAt: 45, Elemento: "Rodio"},
+	{NumAt: 46, Elemento: "Paladio"},
+	{NumAt: 47, Elemento: "Plata"},
+	{NumAt: 48, Elemento: "Cadmio"},
+	{NumAt: 49, Elemento: "Indio"},
+	{NumAt: 50, Elemento: "Estaño"},
+	{NumAt: 51, Elemento: "Antimonio"},
+	{NumAt: 52, Elemento: "Telurio"},
+	{NumAt: 53, Elemento: "Yodo"},
+	{NumAt: 54, Elemento: "Xenón"},
+	{NumAt: 55, Elemento: "Cesio"},
+	{NumAt: 56, Elemento: "Bario"},
+	{NumAt: 57, Elemento: "Lantano"},
+	{NumAt: 58, Elemento: "Cerio"},
+	{NumAt: 59, Elemento: "Praseodimio"},
+	{NumAt: 60, Elemento: "Neodimio"},
+	{NumAt: 61, Elemento: "Prometio"},
+	{NumAt: 62, Elemento: "Samario"},
+	{NumAt: 63, Elemento: "Europio"},
+	{NumAt: 64, Elemento: "Gadolinio"},
+	{NumAt: 65, Elemento: "Terbio"},
+	{NumAt: 66, Elemento: "Disprosio"},
+	{NumAt: 67, Elemento: "Holmio"},
+	{NumAt: 68, Elemento: "Erbio"},
+	{NumAt: 69, Elemento: "Tulio"},
+	{NumAt: 70, Elemento: "Iterbio"},
+	{NumAt: 71, Elemento: "Lutecio"},
+	{NumAt: 72, Elemento: "Hafnio"},
+	{NumAt: 73, Elemento: "Tántalo"},
+	{NumAt: 74, Elemento: "Wolframio"},
+	{NumAt: 75, Elemento: "Renio"},
+	{NumAt: 76, Elemento: "Osmio"},
+	{NumAt: 77, Elemento: "Iridio"},
+	{NumAt: 78, Elemento: "Platino"},
+	{NumAt: 79, Elemento: "Oro"},
+	{NumAt: 80, Elemento: "Mercurio"},
+	{NumAt: 81, Elemento: "Talio"},
+	{NumAt: 82, Elemento: "Plomo"},
+	{NumAt: 83, Elemento: "Bismuto"},
+	{NumAt: 84, Elemento: "Polonio"},
+	{NumAt: 85, Elemento: "Astato"},
+	{NumAt: 86, Elemento: "Radón"},
+	{NumAt: 87, Elemento: "Francio"},
+	{NumAt: 88, Elemento: "Radio"},
+	{NumAt: 89, Elemento: "Actinio"},
+	{NumAt: 90, Elemento: "Torio"},
+	{NumAt: 91, Elemento: "Protactinio"},
+	{NumAt: 92, Elemento: "Uranio"},
+	{NumAt: 93, Elemento: "Neptunio"},
+	{NumAt: 94, Elemento: "Plutonio"},
+	{NumAt: 95, Elemento: "Americio"},
+	{NumAt: 96, Elemento: "Curio"},
+	{NumAt: 97, Elemento: "Berkelio"},
+	{NumAt: 98, Elemento: "Californio"},
+	{NumAt: 99, Elemento: "Einstenio"},
+	{NumAt: 100, Elemento: "Fermio"},
+	{NumAt: 101, Elemento: "Mendelevio"},
+	{NumAt: 102, Elemento: "Nobelio"},
+	{NumAt: 103, Elemento: "Lawrencio"},
+	{NumAt: 104, Elemento: "Rutherfordio"},
+	{NumAt: 105, Elemento: "Dubnio"},
+	{NumAt: 106, Elemento: "Seaborgio"},
+	{NumAt: 107, Elemento: "Bohrio"},
+	{NumAt: 108, Elemento: "Hassio"},
+	{NumAt: 109, Elemento: "Meitnerio"},
+	{NumAt: 110, Elemento: "Darmstadtio"},
+	{NumAt: 111, Elemento: "Roentgenio"},
+	{NumAt: 112, Elemento: "Copernicio"},
+	{NumAt: 113, Elemento: "Nihonio"},
+	{NumAt: 114, Elemento: "Flerovio"},
+	{NumAt: 115, Elemento: "Moscovio"},
+	{NumAt: 116, Elemento: "Livermorio"},
+	{NumAt: 117, Elemento: "Tenesino"},
+	{NumAt: 118, Elemento: "Oganesón"},
 }
