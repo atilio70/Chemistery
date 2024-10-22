@@ -27,12 +27,15 @@ func getAlbums(c *gin.Context){
 func postAlbums(c *gin.Context){
 	var newAlbum album 
 
-	c.BindJSON(&newAlbum)
+	if err := c.BindJSON(&newAlbum); err!=nil {
+		return
+	}
 
 	albums = append(albums, newAlbum)
 
 	c.IndentedJSON(http.StatusCreated, albums)
 }
+
 
 func main() {
 	router := gin.Default()
