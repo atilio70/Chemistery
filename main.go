@@ -1,7 +1,7 @@
 package main
 
 import (
-	"fmt"
+	"net/http"
 	"github.com/gin-gonic/gin"
 )
 
@@ -14,7 +14,7 @@ type album struct {
 }
 
 //Pequeña base de datos
-var slnums =[]album{
+var albums =[]album{
 	{ID:"1", Title:"Familia", Artist:"Camila CAbello", Year: 2022},
 	{ID:"2", Title:"21", Artist:"Adele", Year: 2011},
 	{ID:"3", Title:"The Eminem show", Artist:"Eminem", Year: 2022},
@@ -25,8 +25,7 @@ func getAlbums(c *gin.Context){
 }
 
 func main() {
-	fmt.Print("Hello World")
-	routter := gin.Default()
+	router := gin.Default()
 	router.GET("/albums", getAlbums)
 	router.Run("localhost:8080")
 }

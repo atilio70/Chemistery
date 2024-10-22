@@ -1,4 +1,4 @@
-module github.com/Chemistery
+module github.com/atilio70/Chemistery
 
 go 1.23.2
 
