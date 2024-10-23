@@ -8,12 +8,12 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
-type tablaPeriodica struct{
-	NumAt int `json:"numat"`
-	Elemento string `json:"Elemento"`
+type Element struct{
+	NumAt int
+	Elemento string
 }
 
-var elementos =  []Elemento {
+var elementos =  []Element {
 	{NumAt: 1, Elemento: "Hidrógeno"},
 	{NumAt: 2, Elemento: "Helio"},
 	{NumAt: 3, Elemento: "Litio"},
@@ -134,7 +134,7 @@ var elementos =  []Elemento {
 	{NumAt: 118, Elemento: "Oganesón"},
 }
 //generamos el principio del quiz
-func generateQuiz() (Elemento, []string) {
+func generateQuiz() (Element, []string) {
 	rand.Seed(time.Now().UnixNano())
 	correct := elementos[rand.Intn(len(elementos))]
 	//seleccionamos las 3 opciones aleatorias
@@ -142,7 +142,7 @@ func generateQuiz() (Elemento, []string) {
 	options = append(options, correct.Elemento)
 	for len(options) < 4 {
 		incorrect := elementos[rand.Intn(len(elementos))].Elemento
-		if !=contains(options, incorrect){
+		if !contains(options, incorrect){
 			options = append(options, incorrect)
 		}
 	}
@@ -161,4 +161,52 @@ func contains(s []string, e string) bool {
 		}
 	}
 	return false
+}
+
+func main() {
+	router := gin.Default()
+	// Ruta para obtener una nueva pregunta del quiz
+	router.GET("/quiz", func(c *gin.Context) {
+		correct, options := generateQuiz()
+		c.JSON(http.StatusOK, gin.H{
+			"num_at": correct.NumAt,
+			"options": options,
+		})
+	})
+
+	//ruta que verfica la respuesta
+	router.POST("/answer", func(c *gin.Context){
+		var req struct {
+			NumAt int `json:"num_at"`
+			Answer string `json:"answer"`
+		}
+
+		if err := c.ShouldBindJSON(&req); err!= nil {
+			c.JSON(http.StatusBadRequest, gin.H{"error": "Invalid input"})
+		}
+		
+		//Buscador de la opcion correcta
+		var correctElement Element
+		for _, elem := range elementos {
+			if elem.NumAt == req.NumAt{
+				correctElement = elem
+				break
+			}
+		}
+
+		//comprobar respuesta correcta
+		if req.Answer == correctElement.Elemento {
+			c.JSON(http.StatusOK, gin.H{
+				"message": "¡Correcto! Seguro fue un golpe de suerte, ¿vas a intentar de nuevo o me vas a dar la razon huyendo?",
+				"correct": true,
+			})
+		} else {
+			c.JSON(http.StatusOK, gin.H{
+				"message": fmt.Sprintf("Error. El elemento correcto era: %s. ¿Intentaras recuperar tu honor, basura, o te retiras?", correctElement.Elemento),
+				"Correct": false,
+			})
+		}
+	})
+
+	router.Run(":8080")
 }
