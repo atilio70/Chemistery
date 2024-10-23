@@ -1,16 +1,19 @@
 package main
 
 import (
+	"fmt"
+	"math/rand"
+	"time"
 	"net/http"
 	"github.com/gin-gonic/gin"
 )
 
 type tablaPeriodica struct{
 	NumAt int `json:"numat"`
-	Elemento string `json:"elemento"`
+	Elemento string `json:"Elemento"`
 }
 
-var elementos =  []elemento {
+var elementos =  []Elemento {
 	{NumAt: 1, Elemento: "Hidrógeno"},
 	{NumAt: 2, Elemento: "Helio"},
 	{NumAt: 3, Elemento: "Litio"},
@@ -129,4 +132,23 @@ var elementos =  []elemento {
 	{NumAt: 116, Elemento: "Livermorio"},
 	{NumAt: 117, Elemento: "Tenesino"},
 	{NumAt: 118, Elemento: "Oganesón"},
+}
+//generamos el principio del quiz
+func generateQuiz() (Elemento, []string) {
+	rand.Seed(time.Now().UnixNano())
+	correct := elementos[rand.Intn(len(elementos))]
+	//seleccionamos las 3 opciones aleatorias
+	var options []string
+	options = append(options, correct.Elemento)
+	for len(options) < 4 {
+		incorrect := elementos[rand.Intn(len(elementos))].Elemento
+		if !=contains(options, incorrect){
+			options = append(options, incorrect)
+		}
+	}
+	//Haciendo que las opciones aparezcan en orden aleatorio
+	rand.Shuffle(len(options), func(i,j int) {
+		options[i], options[j]= options[j], options[i]
+	})
+	return correct, options
 }
