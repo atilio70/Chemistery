@@ -152,3 +152,13 @@ func generateQuiz() (Elemento, []string) {
 	})
 	return correct, options
 }
+
+//verificar si la opcion esta en la lista
+func contains(s []string, e string) bool {
+	for _, a:= range s {
+		if a == e {
+			return true
+		}
+	}
+	return false
+}
